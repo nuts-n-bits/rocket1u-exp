@@ -5,7 +5,7 @@ extern crate rouille;
 use std::thread;
 use std::result::Result;
 use rouille::Response;
-use lib::parse_url::{ParsedUrl, ParsedUrlWithQueryMap, DuplicateParamPolicy, DupParamError};
+use lib::parse_url::ParsedUrl;
 
 
 fn main() {
@@ -47,20 +47,6 @@ fn decode_url(url: &str) -> Result<String, std::str::Utf8Error> {
 
 fn parse_url(raw_url: &str) -> Result<ParsedUrl, std::str::Utf8Error> {
     ParsedUrl::parse_new(raw_url, decode_url)
-}
-
-pub struct ShitWentWrong<'a>(&'a str);
-
-impl<'a> From<DupParamError> for ShitWentWrong<'a> {
-    fn from(_: DupParamError) -> Self {
-        return ShitWentWrong("Wrong!");
-    }
-}
-
-impl<'a> From<std::str::Utf8Error> for ShitWentWrong<'a> {
-    fn from(_: std::str::Utf8Error) -> Self {
-        return ShitWentWrong("Wrong!");
-    }
 }
 
 #[test]
